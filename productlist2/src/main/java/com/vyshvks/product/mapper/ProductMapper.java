@@ -8,7 +8,7 @@ public class ProductMapper {
 
 
     //entity to DTO
-    public static ProductDTO toProductDTO(Product product){
+    public static ProductDTO toProductDTO(Product product) {
         return new ProductDTO(
                 product.getId(),
                 product.getName(),
@@ -19,7 +19,7 @@ public class ProductMapper {
     }
 
     //DTO to entity
-    public static Product toProductEntity(ProductDTO productDTO, Category category){
+    public static Product toProductEntity(ProductDTO productDTO, Category category) {
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
