@@ -3,6 +3,7 @@ package com.vyshvks.product.service;
 import com.vyshvks.product.dto.ProductDTO;
 import com.vyshvks.product.entity.Category;
 import com.vyshvks.product.entity.Product;
+import com.vyshvks.product.exception.CategoryNotFoundException;
 import com.vyshvks.product.mapper.ProductMapper;
 import com.vyshvks.product.repository.CategoryRepository;
 import com.vyshvks.product.repository.ProductRepository;
@@ -24,7 +25,8 @@ public class ProductService {
     public ProductDTO createProduct(ProductDTO productDTO) {
 
         Category category = categoryRepository.findById(productDTO.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found!"));
+                .orElseThrow(() -> new CategoryNotFoundException("Category id: " +
+                        productDTO.getCategoryId() + " not found!"));//where ever this exception is occur then global exception handler will invoke the method we return in that
 
         //DTO -> Entity
 

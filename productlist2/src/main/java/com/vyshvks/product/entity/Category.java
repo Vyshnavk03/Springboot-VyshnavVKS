@@ -17,7 +17,7 @@ public class Category {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //mappedby is to connect with product the catagory is written inside is the category written in product and cascade is made if catagory is deleted then enitire product will be deleted inside that catagory
     private List<Product> products = new ArrayList<>();
 }
