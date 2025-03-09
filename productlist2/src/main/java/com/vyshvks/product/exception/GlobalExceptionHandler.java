@@ -9,12 +9,13 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 
-@ControllerAdvice // this annotation will do what whenever a exception occur spring framwork GlobalExceptionHandler inside any method preset it will invoke it which is related to that exception
-public class GlobalExceptionHandler  {
+@ControllerAdvice
+// this annotation will do what whenever a exception occur spring frame work GlobalExceptionHandler inside any method preset it will invoke it which is related to that exception
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(CategoryAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponseDTO> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException ex,
-                                                                       WebRequest webRequest){//we used webrequest for exceptionresponseDTO
+                                                                                     WebRequest webRequest) {//we used webrequest for exceptionresponseDTO
 
         ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(
                 webRequest.getDescription(false),
@@ -22,12 +23,12 @@ public class GlobalExceptionHandler  {
                 ex.getMessage(),
                 LocalDateTime.now()
         );
-        return  ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionResponseDTO);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionResponseDTO);
     }
 
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<ExceptionResponseDTO> handleCategoryNotFoundException(CategoryNotFoundException ex,
-                                                                  WebRequest webRequest){
+                                                                                WebRequest webRequest) {
 
 
         ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(
@@ -37,12 +38,12 @@ public class GlobalExceptionHandler  {
                 LocalDateTime.now()
         );
 
-        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponseDTO);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponseDTO);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponseDTO> handleGlobalException(Exception ex,
-                                                                                WebRequest webRequest){
+                                                                      WebRequest webRequest) {
 
 
         ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO(
@@ -52,6 +53,6 @@ public class GlobalExceptionHandler  {
                 LocalDateTime.now()
         );
 
-        return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponseDTO);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponseDTO);
     }
 }

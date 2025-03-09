@@ -3,13 +3,23 @@ package com.vyshvks.product.controller;
 import com.vyshvks.product.dto.CategoryDTO;
 import com.vyshvks.product.exception.CategoryAlreadyExistsException;
 import com.vyshvks.product.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+// this tags annotation is swagger part
+@Tag(
+        name = "Category REST API CURD Operation",
+        description = "CREAT, READ, UPDATE AND  DELETE operations for Category REST API"
+)
 
 @RestController
 @RequestMapping("/api/categories")
@@ -19,6 +29,21 @@ public class CategoryController {
     private CategoryService categoryService;
 
     //create categories
+    //the operation annotation is the part of swagger
+    @Operation(
+            summary = "post the category in database",
+            description = "REST API to upload the category in database"
+    )
+
+    //this one too belong to swagger
+    @ApiResponse(
+            responseCode = "201",
+            description = "CREATED"
+    )
+
+    // thus PreAuthorize annotation belong to authentication
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+
     @PostMapping
     public ResponseEntity<?> createCategory(CategoryDTO categoryDTO) {// here we specified ? generic so that in try it return catogery and in catch block it return string so it will have confilit in return type so has genric it can be any when dto it will dto and when string it will act has string
         CategoryDTO savedCategory = categoryService.createCategory(categoryDTO);
@@ -36,18 +61,35 @@ public class CategoryController {
     }
 
     // get all categories
+    //the operation annotation is the part of swagger
+    @Operation(
+            summary = "Fetch the category List from database",
+            description = "REST API to fetch the category list in database"
+    )
     @GetMapping
     public List<CategoryDTO> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
     //get category by id
+    //the operation annotation is the part of swagger
+    @Operation(
+            summary = "Fetch the category by ID",
+            description = "REST API to fetch the category Bu ID"
+    )
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
         return new ResponseEntity<>(categoryService.getCategoryById(id), HttpStatus.OK);
     }
 
     //delete
+    //the operation annotation is the part of swagger
+    @Operation(
+            summary = "Delete the category from database",
+            description = "REST API to delet the category from database"
+    )
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
     @DeleteMapping
     public String deleteCategory(@PathVariable long id) {
